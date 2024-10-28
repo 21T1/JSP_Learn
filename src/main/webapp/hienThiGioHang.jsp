@@ -23,7 +23,7 @@
 			</div>
 			<div class="col-sm-8">
 				<div align="center">
-					<h4>Giỏ hàng</h4>
+					<h3>Giỏ hàng</h3>
 				</div>
 				<%
 				if (session.getAttribute("login") != null) {

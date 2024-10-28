@@ -33,26 +33,30 @@ public class sachController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		
-		LoaiBO loaiBO = new LoaiBO();
-		request.setAttribute("dsLoai", loaiBO.getLoai());
-		
-		SachBO sachBO = new SachBO();
-		String maLoai = request.getParameter("maLoai");		
-		String key = request.getParameter("txtTimKiem");
-		
-		ArrayList<Sach> dsSach = sachBO.getSach();
-		if (maLoai != null)
-			dsSach = sachBO.timMa(maLoai);
-		if (key != null) {
-			dsSach = sachBO.tim(key);
+		try {
+			request.setCharacterEncoding("UTF-8");
+			response.setCharacterEncoding("UTF-8");
+			
+			LoaiBO loaiBO = new LoaiBO();
+			request.setAttribute("dsLoai", loaiBO.getLoai());
+			
+			SachBO sachBO = new SachBO();
+			String maLoai = request.getParameter("maLoai");		
+			String key = request.getParameter("txtTimKiem");
+			
+			ArrayList<Sach> dsSach = sachBO.getSach();
+			if (maLoai != null)
+				dsSach = sachBO.timMa(maLoai);
+			if (key != null) {
+				dsSach = sachBO.tim(key);
+			}
+			
+			request.setAttribute("dsSach", dsSach);//chuyen sang tc.jsp
+			RequestDispatcher rd = request.getRequestDispatcher("tc.jsp");
+			rd.forward(request, response);
+		} catch (Exception e) {
+			System.out.println("Lỗi kết nối");
 		}
-		
-		request.setAttribute("dsSach", dsSach);//chuyen sang tc.jsp
-		RequestDispatcher rd = request.getRequestDispatcher("tc.jsp");
-		rd.forward(request, response);
 	}
 
 	/**

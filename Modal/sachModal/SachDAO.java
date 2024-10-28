@@ -1,16 +1,32 @@
 package sachModal;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import ketNoiModal.KetNoi;
+
 public class SachDAO {
-	public ArrayList<Sach> getSach() {
+	public ArrayList<Sach> getSach() throws Exception {
 		ArrayList<Sach> ds = new ArrayList<Sach>();
-		ds.add(new Sach("s1", "CNTT", "Nguyễn A", (long) 1, (long) 1000, "image_sach/a1.jpg", "cntt"));
-		ds.add(new Sach("s2", "CSDL", "Văn B", (long) 2, (long) 1000, "image_sach/b2.jpg", "cntt"));
-		ds.add(new Sach("s3", "CTDL và GT", "Lê C", (long) 1, (long) 1000, "image_sach/c5.jpg", "cntt"));
-		ds.add(new Sach("s4", "Cơ sở toán", "Hoàng A", (long) 1, (long) 1000, "image_sach/h4.jpg", "toan"));
-		ds.add(new Sach("s5", "Toán cao cấp", "Lê B", (long) 1, (long) 1000, "image_sach/k12.jpg", "toan"));
-		ds.add(new Sach("s6", "Lý 11", "Ngô D", (long) 1, (long) 1000, "image_sach/ly5.jpg", "ly"));
+		KetNoi ketNoi = new KetNoi();
+		ketNoi.ketNoi();
+		String sql = "select * from sach";
+		PreparedStatement pstmt = ketNoi.cn.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		while (rs.next()) {
+			ds.add(new Sach(
+					rs.getString("masach"),
+					rs.getString("tensach"),
+					rs.getString("tacgia"),
+					rs.getLong("soluong"),
+					rs.getLong("gia"),
+					rs.getString("anh"),
+					rs.getString("maloai")
+				));
+		}
+		
+		ketNoi.cn.close();
 		return ds;
 	}
 }

@@ -6,7 +6,7 @@ public class SachBO {
 	SachDAO sachDAO = new SachDAO();
 	ArrayList<Sach> ds;
 
-	public ArrayList<Sach> getSach() {
+	public ArrayList<Sach> getSach() throws Exception {
 		ds = sachDAO.getSach();
 		return ds;
 	}

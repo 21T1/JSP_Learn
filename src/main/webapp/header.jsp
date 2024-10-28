@@ -1,3 +1,4 @@
+<%@ page import="khachHangModal.KhachHang" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -28,10 +29,14 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<%if (session.getAttribute("login") == null){ %> <a
-					href="dangNhapController"><span
-						class="glyphicon glyphicon-user"></span> Login </a> <%} else {%> <a
-					href="datHang.jsp"><%=session.getAttribute("login") %></a> <%} %>
+					<%if (session.getAttribute("login") == null){ %> 
+						<a href="dangNhapController">
+							<span class="glyphicon glyphicon-user"></span> Login 
+						</a> 
+					<%} else {
+						KhachHang khachHang = (KhachHang) session.getAttribute("login"); %> 
+						<a href="datHang.jsp">Xin chào: <%= khachHang.getHoTen() %></a> 
+					<%} %>
 				</li>
 				<%if (session.getAttribute("login") != null) {%>
 				<li><a href="logout.jsp"><span

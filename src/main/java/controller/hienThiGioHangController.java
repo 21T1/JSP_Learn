@@ -30,9 +30,13 @@ public class hienThiGioHangController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("dsLoai", (new LoaiBO().getLoai()));
-		RequestDispatcher rd = request.getRequestDispatcher("hienThiGioHang.jsp");
-		rd.forward(request, response);
+		try {
+			request.setAttribute("dsLoai", (new LoaiBO().getLoai()));
+			RequestDispatcher rd = request.getRequestDispatcher("hienThiGioHang.jsp");
+			rd.forward(request, response);
+		} catch (Exception e) {
+			//TODO solve
+		}
 	}
 
 	/**

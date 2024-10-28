@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import khachHangModal.*;
+
+
 /**
  * Servlet implementation class dangNhapController
  */
@@ -30,22 +33,29 @@ public class dangNhapController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String name = request.getParameter("txtName");
-		String pass = request.getParameter("txtPass");
-		String message = null;
-		if (name != null && pass != null) {
-			if (name.equals("abc") && pass.equals("123")) {
-				HttpSession session = request.getSession();
-				session.setAttribute("login", name);
-				RequestDispatcher rd = request.getRequestDispatcher("sachController");
-				rd.forward(request, response);
-			} else {
-				message = "Thông tin đăng nhập không đúng!";
+		try {
+			String name = request.getParameter("txtName");
+			String pass = request.getParameter("txtPass");
+			String message = null;
+			
+			if (name != null && pass != null) {
+				KhachHangBO khachHangBO = new KhachHangBO();
+				KhachHang khachHang = khachHangBO.kiemTraDangNhap(name, pass) ;
+				if (khachHang != null) {
+					HttpSession session = request.getSession();
+					session.setAttribute("login", khachHang);
+					response.sendRedirect("sachController");
+					return;
+				} else {
+					message = "Thông tin đăng nhập không đúng!";
+				}
 			}
+			request.setAttribute("message", message);
+			RequestDispatcher rd = request.getRequestDispatcher("dangNhap.jsp");
+			rd.forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		request.setAttribute("message", message);
-		RequestDispatcher rd = request.getRequestDispatcher("dangNhap.jsp");
-		rd.forward(request, response);
 	}
 
 	/**

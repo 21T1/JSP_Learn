@@ -28,11 +28,12 @@
 				<%} %>
 			</div>
 			<div class="col-sm-8">
-				<div class="row">
-					<%	ArrayList<Sach> dsSach = (ArrayList<Sach>) request.getAttribute("dsSach");
-						int n = dsSach.size();
-						for (int i = 0; i < n; i++) {
-							Sach sach = dsSach.get(i); %>
+				<%	ArrayList<Sach> dsSach = (ArrayList<Sach>) request.getAttribute("dsSach");
+					int n = dsSach.size();
+					for (int i = 0; i < n/3 + 1; i++) { %>
+						<div class="row">
+						<% for (int j = 1; j <= 3; j++) {
+							Sach sach = dsSach.get((i + 1) * 3 + j); %>
 							<div class = "col-sm-4">
 								<img src="<%=sach.getAnh() %>"> <br>
 								<%=sach.getTenSach() %>		
@@ -40,8 +41,9 @@
 									<i class="fa-solid fa-cart-shopping"></i>
 								</a>
 							</div>
-					<% 	} %>
-				</div>
+						<%	} %>
+						</div>
+				<% 	} %>
 			</div>
 			<div class="col-sm-2">
 				<form action="sachController" method="post">
