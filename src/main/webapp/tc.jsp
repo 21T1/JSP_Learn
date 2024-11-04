@@ -21,7 +21,7 @@
 				<%	ArrayList<Loai> dsLoai = (ArrayList<Loai>) request.getAttribute("dsLoai");
 					for (Loai loai : dsLoai) {%>
 						<a href ="sachController?maLoai=<%=loai.getMaLoai() %>">
-							<%=loai.getMaLoai() %>
+							<%=loai.getTenLoai()%>
 						</a><hr>
 				<%} %>
 			</div>
@@ -46,6 +46,7 @@
 							}
 						}
 			        	if (dsSach != null) {
+			        		out.print("Ok");
 				            for (int i = 0; i < row; i++) { %>
             				<div class="row">
 				                <% 	for (int j = 0; j < 3; j++) {

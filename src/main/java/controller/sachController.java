@@ -54,8 +54,13 @@ public class sachController extends HttpServlet {
 			}
 			
 			ArrayList<Sach> dsSach = sachBO.getSach(p);
-			if (maLoai != null)
+			if (maLoai != null) {
+				System.out.println(maLoai);
 				dsSach = sachBO.timMa(maLoai);
+				for (int i = 0; i < dsSach.size(); i++) {
+					System.out.println(dsSach.get(i).getMaLoai() + '\n');
+				}
+			}
 			if (key != null) {
 				dsSach = sachBO.tim(key);
 			}

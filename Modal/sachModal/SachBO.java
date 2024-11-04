@@ -4,32 +4,17 @@ import java.util.ArrayList;
 
 public class SachBO {
 	SachDAO sachDAO = new SachDAO();
-	ArrayList<Sach> ds;
-
+	
 	public ArrayList<Sach> getSach(int p) throws Exception {
-		ds = sachDAO.getSach(p);
-		return ds;
+		return sachDAO.getSach(p);
 	}
 	
-	public ArrayList<Sach> timMa(String maLoai) {
-		ArrayList<Sach> kq = new ArrayList<Sach>();
-		for (Sach sach : ds) {
-			if (maLoai.trim().toLowerCase().equals(sach.getMaLoai().trim().toLowerCase())) {
-				kq.add(sach);
-			}
-		}
-		return kq;
+	public ArrayList<Sach> timMa(String maLoai) throws Exception {
+		return sachDAO.getSachTheoMa(maLoai);
 	}
 	
-	public ArrayList<Sach> tim(String key) {
-		ArrayList<Sach> kq = new ArrayList<Sach>();
-		for (Sach sach : ds) {
-			if (sach.getTenSach().trim().toLowerCase().contains(key.trim().toLowerCase())||
-					sach.getTacGia().trim().toLowerCase().contains(key.trim().toLowerCase())) {
-				kq.add(sach);
-			}
-		}
-		return kq;
+	public ArrayList<Sach> tim(String tenSach) throws Exception {
+		return sachDAO.getSachTheoTen(tenSach);
 	}
 	
 	public int countSach() throws Exception {

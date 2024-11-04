@@ -69,6 +69,9 @@
 					</table>
 					<input type="submit" name="btnXoaChon" value="Xóa chọn">
 				</form>
+				<form action="xacNhanController" method="post">
+					<input type="submit" name="btnXacNhan" class="btn-primary"value="Xác nhận thanh toán">
+				</form>
 				<div align="right">
 					Tổng tiền:
 					<%= gioHang.tong() %></div>

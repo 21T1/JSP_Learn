@@ -7,12 +7,68 @@ import java.util.ArrayList;
 import ketNoiModal.KetNoi;
 
 public class SachDAO {
+	
+	public ArrayList<Sach> getSachTheoMa(String maSach) throws Exception {
+		ArrayList<Sach> ds = new ArrayList<Sach>();
+		KetNoi ketNoi = new KetNoi();
+		ketNoi.ketNoi();
+		
+		String sql = "select * from sach where masach = ?";
+		
+		PreparedStatement pstmt = ketNoi.cn.prepareStatement(sql);
+		pstmt.setString(1, maSach);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while (rs.next()) {
+			ds.add(new Sach(
+					rs.getString("masach"),
+					rs.getString("tensach"),
+					rs.getString("tacgia"),
+					rs.getLong("soluong"),
+					rs.getLong("gia"),
+					rs.getString("anh"),
+					rs.getString("maloai")
+				));
+		}
+		
+		ketNoi.cn.close();
+		return ds;
+	}
+	
+	public ArrayList<Sach> getSachTheoTen(String tenSach) throws Exception {
+		ArrayList<Sach> ds = new ArrayList<Sach>();
+		KetNoi ketNoi = new KetNoi();
+		ketNoi.ketNoi();
+		
+		String sql = "select * from sach where tenSach like ?";
+		
+		PreparedStatement pstmt = ketNoi.cn.prepareStatement(sql);
+		pstmt.setString(1, "%" + tenSach +"%");
+		ResultSet rs = pstmt.executeQuery();
+		
+		while (rs.next()) {
+			ds.add(new Sach(
+					rs.getString("masach"),
+					rs.getString("tensach"),
+					rs.getString("tacgia"),
+					rs.getLong("soluong"),
+					rs.getLong("gia"),
+					rs.getString("anh"),
+					rs.getString("maloai")
+				));
+		}
+		
+		ketNoi.cn.close();
+		return ds;
+	}
+	
 	public ArrayList<Sach> getSach(int p) throws Exception {
 		ArrayList<Sach> ds = new ArrayList<Sach>();
 		KetNoi ketNoi = new KetNoi();
 		ketNoi.ketNoi();
-//		String sql = "select * from sach";
+		
 		String sql = "select * from sach order by masach offset 9 * (? - 1) rows fetch next 9 rows only";
+		
 		PreparedStatement pstmt = ketNoi.cn.prepareStatement(sql);
 		pstmt.setInt(1, p);
 		ResultSet rs = pstmt.executeQuery();
