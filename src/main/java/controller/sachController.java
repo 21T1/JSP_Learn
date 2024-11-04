@@ -44,7 +44,16 @@ public class sachController extends HttpServlet {
 			String maLoai = request.getParameter("maLoai");		
 			String key = request.getParameter("txtTimKiem");
 			
-			ArrayList<Sach> dsSach = sachBO.getSach();
+			request.setAttribute("countSach", sachBO.countSach());
+			request.setAttribute("countP", sachBO.countP());
+			
+			String strp = request.getParameter("p");
+			int p = 1;
+			if (strp != null) {
+				p = Integer.parseInt(strp);
+			}
+			
+			ArrayList<Sach> dsSach = sachBO.getSach(p);
 			if (maLoai != null)
 				dsSach = sachBO.timMa(maLoai);
 			if (key != null) {
@@ -56,6 +65,7 @@ public class sachController extends HttpServlet {
 			rd.forward(request, response);
 		} catch (Exception e) {
 			System.out.println("Lỗi kết nối");
+			e.printStackTrace();
 		}
 	}
 

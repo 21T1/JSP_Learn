@@ -6,8 +6,8 @@ public class SachBO {
 	SachDAO sachDAO = new SachDAO();
 	ArrayList<Sach> ds;
 
-	public ArrayList<Sach> getSach() throws Exception {
-		ds = sachDAO.getSach();
+	public ArrayList<Sach> getSach(int p) throws Exception {
+		ds = sachDAO.getSach(p);
 		return ds;
 	}
 	
@@ -30,5 +30,17 @@ public class SachBO {
 			}
 		}
 		return kq;
+	}
+	
+	public int countSach() throws Exception {
+		return sachDAO.countSach();
+	}
+	
+	public int countP() throws Exception {
+		int pnum = countSach() / 9;
+		if (countSach() % 9 != 0) {
+			pnum += 1;
+		}
+		return  pnum;
 	}
 }

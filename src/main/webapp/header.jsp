@@ -23,7 +23,7 @@
 				<a class="navbar-brand" href="sachController">Trang chủ</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="gioHangController">Giỏ hàng</a></li>
+				<li class=""><a href="gioHangController">Giỏ hàng</a></li>
 				<li><a href="xacNhanController">Xác nhận đặt mua</a></li>
 				<li><a href="lichSuController">Lịch sử mua hàng</a></li>
 			</ul>
