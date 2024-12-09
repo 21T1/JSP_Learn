@@ -48,7 +48,7 @@ public class gioHangController extends HttpServlet {
 			
 			session.setAttribute("gioHang", gio);
 			response.sendRedirect("hienThiGioHangController");
-		}
+		}		
 	}
 
 	/**

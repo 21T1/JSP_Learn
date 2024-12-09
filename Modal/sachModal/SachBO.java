@@ -4,28 +4,36 @@ import java.util.ArrayList;
 
 public class SachBO {
 	SachDAO sachDAO = new SachDAO();
+	ArrayList<Sach> ds;
+	
+	public ArrayList<Sach> getSach() throws Exception {
+		ds = sachDAO.getSach();
+		return ds;
+	}
 	
 	public ArrayList<Sach> getSach(int p) throws Exception {
-		return sachDAO.getSach(p);
+		ArrayList<Sach> lst = sachDAO.getSach(p);
+		return lst;
 	}
-	
-	public ArrayList<Sach> timMa(String maLoai) throws Exception {
-		return sachDAO.getSachTheoMa(maLoai);
-	}
-	
-	public ArrayList<Sach> tim(String tenSach) throws Exception {
-		return sachDAO.getSachTheoTen(tenSach);
-	}
-	
-	public int countSach() throws Exception {
-		return sachDAO.countSach();
-	}
-	
-	public int countP() throws Exception {
-		int pnum = countSach() / 9;
-		if (countSach() % 9 != 0) {
-			pnum += 1;
+
+	public ArrayList<Sach> timMa(String maLoai) {
+		ArrayList<Sach> kq = new ArrayList<Sach>();
+		for (Sach sach : ds) {
+			if (maLoai.trim().toLowerCase().equals(sach.getMaLoai().trim().toLowerCase())) {
+				kq.add(sach);
+			}
 		}
-		return  pnum;
+		return kq;
+	}
+
+	public ArrayList<Sach> tim(String key) {
+		ArrayList<Sach> kq = new ArrayList<Sach>();
+		for (Sach sach : ds) {
+			if (sach.getTenSach().trim().toLowerCase().contains(key.trim().toLowerCase())||
+					sach.getTacGia().trim().toLowerCase().contains(key.trim().toLowerCase())) {
+				kq.add(sach);
+			}
+		}
+		return kq;
 	}
 }

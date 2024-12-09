@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GioHangBO {
-	public List<Hang> ds = new ArrayList<Hang>() ;
+	private List<Hang> ds = new ArrayList<Hang>() ;
+	
+	public List<Hang> getDs() {
+		return this.ds;
+	}
+	
 	public void them(String maSach, String tenSach, long gia, long sl) {
 		for (Hang hang : ds) {
 			if (hang.getMaSach().equals(maSach)) {

@@ -46,7 +46,7 @@ public class xacNhanController extends HttpServlet {
 				
 				long maHoaDon = hoaDonBO.maxHoaDon();
 				ChiTietBO chiTietBO = new ChiTietBO();
-				for (Hang hang : gioHangBO.ds) {
+				for (Hang hang : gioHangBO.getDs()) {
 					chiTietBO.them(hang.getMaSach(), hang.getSoLuong(),  maHoaDon);
 				}
 				

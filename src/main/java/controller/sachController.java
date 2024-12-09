@@ -44,22 +44,9 @@ public class sachController extends HttpServlet {
 			String maLoai = request.getParameter("maLoai");		
 			String key = request.getParameter("txtTimKiem");
 			
-			request.setAttribute("countSach", sachBO.countSach());
-			request.setAttribute("countP", sachBO.countP());
-			
-			String strp = request.getParameter("p");
-			int p = 1;
-			if (strp != null) {
-				p = Integer.parseInt(strp);
-			}
-			
-			ArrayList<Sach> dsSach = sachBO.getSach(p);
+			ArrayList<Sach> dsSach = sachBO.getSach();
 			if (maLoai != null) {
-				System.out.println(maLoai);
 				dsSach = sachBO.timMa(maLoai);
-				for (int i = 0; i < dsSach.size(); i++) {
-					System.out.println(dsSach.get(i).getMaLoai() + '\n');
-				}
 			}
 			if (key != null) {
 				dsSach = sachBO.tim(key);

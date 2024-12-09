@@ -8,6 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<%-- <c:set var="maSach" value="${maSach }" />
+	<c:set var="maSachSua" value="${btnSua }" />
+	<c:set var="sl" value="${txtSl }" /> --%>
 	<%	String maSach = request.getParameter("maSach");
 		String maSachSua = request.getParameter("btnSua");
 		String sl = request.getParameter("txtSl");

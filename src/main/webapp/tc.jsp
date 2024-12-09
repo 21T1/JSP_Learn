@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="java.util.ArrayList"%>
 <%@page import="loaiModal.Loai"%>
 <%@page import="loaiModal.LoaiBO"%>
@@ -18,54 +19,27 @@
 		<div class="row">
 			<!-- Loại sách -->
 			<div class="col-sm-2">
-				<%	ArrayList<Loai> dsLoai = (ArrayList<Loai>) request.getAttribute("dsLoai");
-					for (Loai loai : dsLoai) {%>
-						<a href ="sachController?maLoai=<%=loai.getMaLoai() %>">
-							<%=loai.getTenLoai()%>
+				<c:forEach var="loai" items="${dsLoai}">
+						<a href ="sachController?maLoai=${loai.getMaLoai()}">
+							${loai.getTenLoai()}
 						</a><hr>
-				<%} %>
+				</c:forEach>
 			</div>
 			
 			<!-- Sách -->
 			<div class="col-sm-8">
 				<div class="row">
-					<% 	ArrayList<Sach> dsSach = (ArrayList<Sach>) request.getAttribute("dsSach");
-						int countSach = (Integer) request.getAttribute("countSach");
-						int countP = (Integer) request.getAttribute("countP");
-						int currentP = 1;
-						if (request.getParameter("p") != null) {
-						 	currentP = Integer.parseInt(request.getParameter("p"));
-						}
-												
-						int quantity = 9, row = 3;
-						if (currentP == countP) {
-							quantity = countSach - (currentP - 1) * quantity;
-							row = quantity / 3;
-							if (quantity % 3 != 0) {
-								row += 1;
-							}
-						}
-			        	if (dsSach != null) {
-			        		out.print("Ok");
-				            for (int i = 0; i < row; i++) { %>
-            				<div class="row">
-				                <% 	for (int j = 0; j < 3; j++) {
-						                int index = i * 3 + j;
-						                
-						                if (currentP != countP || (currentP == countP && index < quantity)) {
-						                	Sach sach = dsSach.get(index); %>
-						                    <div class="col-sm-4">
-						                        <img src="<%=sach.getAnh() %>"> <br>
-												<p><%=sach.getTenSach() %></p>		
-												<a href="gioHangController?maSach=<%= sach.getMaSach() %>&tenSach=<%= sach.getTenSach() %>&gia=<%= sach.getGia()%>">
-													<i class="fa-solid fa-cart-shopping"></i>
-												</a>
-						                    </div>		
-		                			<%	} 
-	                				}%>
-            				</div>
-        				<% 	} 
-        				} %>
+	            	<div class="row">
+	   					<c:forEach var="sach" items="${dsSach}">
+							<div class="col-xs-4" style="height: 320px;">
+								<img src="${sach.getAnh()}" style="height: 250px; width: 100%; object-fit: cover; overflow: hidden;"> <br>
+								<p style="height: 30px;">${sach.getTenSach()}</p>		
+								<a href="gioHangController?maSach=${sach.getMaSach()}&tenSach=${sach.getTenSach()}&gia=${sach.getGia()}">
+									<i class="fa-solid fa-cart-shopping"></i>
+								</a>
+			               </div>		
+			        	</c:forEach>
+	            	</div>
 				</div>
 			</div>
 			
@@ -76,35 +50,6 @@
 				</form>
 			</div>
 		</div>
-		
-		<!-- Phân trang -->
-		<nav aria-label="Page navigation example">
-			<ul class="pagination" style="display: flex; justify-content: center;">
-			    <li class="page-item">
-					<a class="page-link" href="#" aria-label="Previous">
-					    <span aria-hidden="true">&laquo;</span>
-				      	<span class="sr-only">Previous</span>
-					  </a>
-				</li>
-				<%	for (int i = 1; i <= countP; i++) { 
-						if (currentP == i) {%>
-						    <li class="page-item active">
-						    	<a class="page-link" href="sachController?p=<%=i%>"><%=i%></a>
-					    	</li>
-			   		<%	} else { %>
-			   				<li class="page-item">
-						    	<a class="page-link" href="sachController?p=<%=i%>"><%=i%></a>
-					    	</li>
-					<%	}
-					} 	%>
-				<li class="page-item">
-				 	<a class="page-link" href="#" aria-label="Next">
-				    	<span aria-hidden="true">&raquo;</span>
-				        <span class="sr-only">Next</span>
-		  			</a>
-			    </li>
-	  		</ul>
-		</nav>
 	</div>
 </body>
 </html>

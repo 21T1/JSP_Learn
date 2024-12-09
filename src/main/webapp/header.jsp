@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="khachHangModal.KhachHang" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -23,25 +24,30 @@
 				<a class="navbar-brand" href="sachController">Trang chủ</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li class=""><a href="gioHangController">Giỏ hàng</a></li>
+				<li class=""><a href="hienThiGioHangController">Giỏ hàng</a></li>
 				<li><a href="xacNhanController">Xác nhận đặt mua</a></li>
 				<li><a href="lichSuController">Lịch sử mua hàng</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<%if (session.getAttribute("login") == null){ %> 
-						<a href="dangNhapController">
-							<span class="glyphicon glyphicon-user"></span> Login 
-						</a> 
-					<%} else {
-						KhachHang khachHang = (KhachHang) session.getAttribute("login"); %> 
-						<a href="datHang.jsp">Xin chào: <%= khachHang.getHoTen() %></a> 
-					<%} %>
+					<c:choose>
+						<c:when test="${sessionScope.login == null}">
+							<a href="dangNhapController">
+								<span class="glyphicon glyphicon-user"></span> Login 
+							</a>
+						</c:when>
+						<c:otherwise>
+							<a href="datHang.jsp">Xin chào: ${sessionScope.login.getHoTen()}</a> 
+						</c:otherwise>
+					</c:choose>
 				</li>
-				<%if (session.getAttribute("login") != null) {%>
-				<li><a href="logout.jsp"><span
-						class="glyphicon glyphicon-log-out"></span>Logout</a></li>
-				<%} %>
+				<c:if test="${sessionScope.login != null}">
+					<li>
+						<a href="logout.jsp">
+							<span class="glyphicon glyphicon-log-out"></span>Logout
+						</a>
+					</li>
+				</c:if>							
 			</ul>
 		</div>
 	</nav>

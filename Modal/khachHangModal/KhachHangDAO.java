@@ -34,34 +34,30 @@ public class KhachHangDAO {
 		return dsKhachHang;
 	}
 
-	public KhachHang kiemTraDangNhap(String tenDN, String pass) {
-		try {
-			var ketNoi = new KetNoi();
-			ketNoi.ketNoi();
-			String sql = "select * from KhachHang"
-					+ " where tendn = ? and pass = ?";
-			PreparedStatement pstmt = ketNoi.cn.prepareStatement(sql);
-			pstmt.setString(1, tenDN);
-			pstmt.setString(2, pass);
-			ResultSet rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				return new KhachHang(
-						rs.getInt(1),
-						rs.getString(2),
-						rs.getString(3),
-						rs.getString(4),
-						rs.getString(5),
-						tenDN,
-						pass
-				);
-			}
-			
-			rs.close();
-			ketNoi.cn.close();
-		} catch (Exception e) {
-			// TODO
+	public KhachHang kiemTraDangNhap(String tenDN, String pass) throws Exception {
+		var ketNoi = new KetNoi();
+		ketNoi.ketNoi();
+		String sql = "select * from KhachHang"
+				+ " where tendn = ? and pass = ?";
+		PreparedStatement pstmt = ketNoi.cn.prepareStatement(sql);
+		pstmt.setString(1, tenDN);
+		pstmt.setString(2, pass);
+		ResultSet rs = pstmt.executeQuery();
+		
+		if (rs.next()) {
+			return new KhachHang(
+					rs.getInt(1),
+					rs.getString(2),
+					rs.getString(3),
+					rs.getString(4),
+					rs.getString(5),
+					tenDN,
+					pass
+			);
 		}
+		
+		rs.close();
+		ketNoi.cn.close();
 		return null;
 	}
 }
