@@ -47,7 +47,7 @@
 												<input type="checkbox" name="selected" value="${hang.getMaSach()}" />
 											</td>
 											<td>${hang.getMaSach()}</td>
-											<td><${hang.getTenSach()}</td>
+											<td>${hang.getTenSach()}</td>
 											<td>${hang.getGia()}</td>
 											<td>${hang.getSoLuong()}</td>
 											<td>
@@ -70,14 +70,18 @@
 							<form action="xacNhanController" method="post">
 								<input type="submit" name="btnXacNhan" class="btn-primary"value="Xác nhận thanh toán">
 							</form>
+							<div align="right"> 
+								Tổng tiền: ${gioHang.tong()}
+							</div>						
+						</c:if>
+						<c:if test="${sessionScope.gioHang == null }">
+							<div align="center">Giỏ hàng đang trống</div>
 						</c:if>
 					</c:when>
 					<c:otherwise>
-						<c:redirect url="dangNhap.jsp"></c:redirect>
+						<c:redirect url="dangNhapController"></c:redirect>
 					</c:otherwise>
 				</c:choose>
-			<div align="right"> 
-				Tổng tiền: ${gioHang.tong()}</div>						
 			</div>
 			<div class="col-sm-2">
 				<form action="sachController" method="post">

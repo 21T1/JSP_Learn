@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,20 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import hoaDonModal.HoaDon;
+import hoaDonModal.HoaDonBO;
 import khachHangModal.KhachHang;
 import lichSuModal.LichSuBO;
 
 /**
- * Servlet implementation class lichSuController
+ * Servlet implementation class xacNhanAdminController
  */
-@WebServlet("/lichSuController")
-public class lichSuController extends HttpServlet {
+@WebServlet("/xacNhanAdminController")
+public class xacNhanAdminController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public lichSuController() {
+    public xacNhanAdminController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,22 +35,20 @@ public class lichSuController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
 		try {
 			HttpSession session = request.getSession();
-			if (session.getAttribute("login") != null) {
-				LichSuBO lichSuBO = new LichSuBO();
-				KhachHang khachHang = (KhachHang) session.getAttribute("login");
-				request.setAttribute("dsLichSu", lichSuBO.getLichSuTheoMaKH(khachHang.getMaKH()));
-				RequestDispatcher rd = request.getRequestDispatcher("lichSu.jsp");
+			if (session.getAttribute("loginAdmin") != null) {
+				HoaDonBO hoaDonBO = new HoaDonBO();
+				request.setAttribute("dsChuaThanhToan", hoaDonBO.getChuaThanhToan());
+				RequestDispatcher rd = request.getRequestDispatcher("xacNhan.jsp");
 				rd.forward(request, response);
 			} else {
-				response.sendRedirect("dangNhapController");
+				response.sendRedirect("dangNhapAdminController");
 			}
+				
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Lỗi lichSuController");
+			System.out.println("Lỗi xacNhanAdminController");
 			e.printStackTrace();
 		}
 	}

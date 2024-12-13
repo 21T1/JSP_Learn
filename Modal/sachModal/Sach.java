@@ -4,8 +4,8 @@ public class Sach {
 	private String maSach;
 	private String tenSach;
 	private String tacGia;
-	private Long soLuong;
-	private Long gia;
+	private long soLuong;
+	private long gia;
 	private String anh;
 	private String maLoai;
 	
@@ -33,7 +33,7 @@ public class Sach {
 		this.tacGia = tacGia;
 	}
 
-	public Long getSoLuong() {
+	public long getSoLuong() {
 		return soLuong;
 	}
 
@@ -41,7 +41,7 @@ public class Sach {
 		this.soLuong = soLuong;
 	}
 
-	public Long getGia() {
+	public long getGia() {
 		return gia;
 	}
 

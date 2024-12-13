@@ -32,6 +32,7 @@
 					<div class="form-group">
                         <input type="submit" class="btn btn-primary form-control" name="btnSubmit" value="Đăng nhập" />
                     </div>
+                    <a href="dangNhapAdminController">Đăng nhập Admin</a>
 				</form>
 			</div>
 		</div>

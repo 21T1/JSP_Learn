@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="tam.GioHangBO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -8,28 +9,26 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%-- <c:set var="maSach" value="${maSach }" />
-	<c:set var="maSachSua" value="${btnSua }" />
-	<c:set var="sl" value="${txtSl }" /> --%>
-	<%	String maSach = request.getParameter("maSach");
-		String maSachSua = request.getParameter("btnSua");
-		String sl = request.getParameter("txtSl");
-		String[] ds = request.getParameterValues("selected");
-		if (session.getAttribute("gioHang") != null) {
-			GioHangBO gioHang = (GioHangBO) session.getAttribute("gioHang");
-			if (maSach != null) {
-				gioHang.xoa(maSach);
-			}
-			if (maSachSua != null) {
-				gioHang.capNhat(maSachSua, Long.parseLong(sl));
-			}
-			if(request.getParameter("btnXoaChon") != null) {
-				for (String ma: ds)
-			    	gioHang.xoa(ma);
-			}
-			session.setAttribute("gioHang", gioHang);
-			response.sendRedirect("hienThiGioHangController");
-		}
-	%>
+	<c:set var="maSach" value="${param.maSach }" />
+	<c:set var="maSachSua" value="${param.btnSua }" />
+	<c:set var="sl" value="${param.txtSl }" />
+	<c:set var="ds" value="${paramValues.selected }" />
+		<c:if test="${sessionScope.gioHang != null }">
+			<c:set value="${sessionScope.gioHang }" var="gioHang"/>
+			<c:if test="${maSach != null }">
+				<c:out value="${gioHang.xoa(maSach) }"></c:out>
+			</c:if>
+			<c:if test="${maSachSua != null }">
+				<c:out value="${gioHang.capNhat(maSachSua, Long.parseLong(sl)) }"></c:out>				
+			</c:if>
+			
+			<c:if test="${param.btnXoaChon != null }">
+				<c:forEach var="ma" items="${ds }" >
+					<c:out value="${gioHang.xoa(ma) }"></c:out>
+				</c:forEach>
+			</c:if>		
+			<c:set scope="session" var="gioHang" value="${gioHang }" />	
+			<c:redirect url="hienThiGioHangController" />
+		</c:if>
 </body>
 </html>

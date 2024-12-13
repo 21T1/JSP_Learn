@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="header.jsp" />
+	<jsp:include page="headerAdmin.jsp" />
 	<div class="container">
 		<div class="row" style="display: flex; justify-content: center;">
         	<div class="col-md-4">
@@ -40,6 +40,7 @@
 					<div class="form-group">
                         <input type="submit" class="btn btn-primary form-control" name="btnSubmit" value="Đăng nhập" />
                     </div>
+                    <a href="dangNhapController">Đăng nhập Khách hàng</a>                
 				</form>
 			</div>
 		</div>

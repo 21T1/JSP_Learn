@@ -21,26 +21,43 @@
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="sachController">Trang chủ</a>
+				<a class="navbar-brand" href="sachAdminController">Trang chủ Admin</a>	
 			</div>
 			<ul class="nav navbar-nav">
-				<li class=""><a href="hienThiGioHangController">Giỏ hàng</a></li>
-				<li><a href="lichSuController">Lịch sử mua hàng</a></li>
+				<c:if test="${sessionScope.loginAdmin != null}">
+					<li class="dropdown">
+				        <a class="dropdown-toggle" data-toggle="dropdown" href="sachAdminController">Quản lý sách
+				        	<span class="caret"></span>
+				        </a>
+				        <ul class="dropdown-menu">
+				          	<li><a href="quanLySachAdminController">Thêm sách</a></li>
+				        </ul>
+				    </li>
+				    <li class="dropdown">
+				        <a class="dropdown-toggle" data-toggle="dropdown" href="loaiAdminController">Quản lý loại				        	<span class="caret"></span>
+				        </a>
+				        <ul class="dropdown-menu">
+				          	<li><a href="loaiAdminController">Danh sách loại</a></li>
+				          	<li><a href="quanLyLoaiAdminController">Thêm loại</a></li>
+				        </ul>
+				    </li>
+					<li><a href="xacNhanAdminController">Xác nhận đơn hàng</a></li>
+				</c:if>	
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li>
 					<c:choose>
-						<c:when test="${sessionScope.login == null}">
+						<c:when test="${sessionScope.loginAdmin == null}">
 							<a href="dangNhapController">
 								<span class="glyphicon glyphicon-user"></span> Login 
 							</a>
 						</c:when>
 						<c:otherwise>
-							<a href="datHang.jsp">Xin chào: ${sessionScope.login.getHoTen()}</a> 
+							<a href="datHang.jsp">Xin chào: ${sessionScope.loginAdmin}</a> 
 						</c:otherwise>
 					</c:choose>
 				</li>
-				<c:if test="${sessionScope.login != null}">
+				<c:if test="${sessionScope.loginAdmin != null}">
 					<li>
 						<a href="logout.jsp">
 							<span class="glyphicon glyphicon-log-out"></span>Logout

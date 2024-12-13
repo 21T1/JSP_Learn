@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dangNhapAdminModal.DangNhapAdminBO;
-import nl.captcha.Captcha;
+import loaiModal.Loai;
+import loaiModal.LoaiBO;
 
 /**
- * Servlet implementation class dangNhapAdminController
+ * Servlet implementation class themSuaLoaiAdminController
  */
-@WebServlet("/dangNhapAdminController")
-public class dangNhapAdminController extends HttpServlet {
+@WebServlet("/themSuaLoaiAdminController")
+public class themSuaLoaiAdminController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public dangNhapAdminController() {
+    public themSuaLoaiAdminController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,31 +34,35 @@ public class dangNhapAdminController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			request.setCharacterEncoding("UTF-8");
-			String name = request.getParameter("txtName");
-			String pass = request.getParameter("txtPass");
-			String message = null;
+			response.setCharacterEncoding("UTF-8");
 			
 			HttpSession session = request.getSession();
-			Captcha captcha = (Captcha) session.getAttribute(Captcha.NAME);
-			String answer = request.getParameter("answer");
 			
-			if (name != null && pass != null) {
-				DangNhapAdminBO bo = new DangNhapAdminBO();
-				String check = bo.kiemTraDangNhap(name, pass);
-				if (check != null && (captcha == null || captcha.isCorrect(answer))) {
-					session.setAttribute("loginAdmin", check);
-					response.sendRedirect("sachAdminController");
-					return;
+			if (session.getAttribute("loginAdmin") != null) {
+				String maLoaiSua = request.getParameter("maLoaiSua");
+				String maLoai = request.getParameter("txtMaLoai");
+				String tenLoai = request.getParameter("txtTenLoai");
+				
+				if (maLoai.trim() == "" || tenLoai.trim() == "") {
+					request.setAttribute("message", "Vui lòng nhập đầy đủ thông tin");
+					RequestDispatcher rd = request.getRequestDispatcher("themSuaLoaiAdmin.jsp");
+					rd.forward(request, response);
 				}
-				if (session.getAttribute("loginCount") == null) {
-					session.setAttribute("loginCount", 1);
+				
+				Loai loai = new Loai(maLoai, tenLoai);
+				String action = request.getParameter("btnSubmitLoai");
+				LoaiBO loaiBO = new LoaiBO();
+				
+				System.out.println(action);
+				if (action.equalsIgnoreCase("Cập nhật")) {
+					System.out.println("here");
+					loaiBO.sua(loai, maLoaiSua);
 				} else {
-					int count = (Integer) session.getAttribute("loginCount");
-					session.setAttribute("loginCount", ++count);
+					loaiBO.them(loai);					
 				}
-				message = "Thông tin đăng nhập không đúng!";					
+				response.sendRedirect("loaiAdminController");
 			}
-			request.setAttribute("message", message);
+			
 			RequestDispatcher rd = request.getRequestDispatcher("dangNhapAdmin.jsp");
 			rd.forward(request, response);
 		} catch (Exception e) {

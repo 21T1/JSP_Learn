@@ -10,20 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import khachHangModal.KhachHang;
-import lichSuModal.LichSuBO;
+import loaiModal.LoaiBO;
 
 /**
- * Servlet implementation class lichSuController
+ * Servlet implementation class quanLyLoaiAdminController
  */
-@WebServlet("/lichSuController")
-public class lichSuController extends HttpServlet {
+@WebServlet("/quanLyLoaiAdminController")
+public class quanLyLoaiAdminController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public lichSuController() {
+    public quanLyLoaiAdminController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,22 +31,36 @@ public class lichSuController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
 		try {
+			request.setCharacterEncoding("UTF-8");
+			response.setCharacterEncoding("UTF-8");
+			
 			HttpSession session = request.getSession();
-			if (session.getAttribute("login") != null) {
-				LichSuBO lichSuBO = new LichSuBO();
-				KhachHang khachHang = (KhachHang) session.getAttribute("login");
-				request.setAttribute("dsLichSu", lichSuBO.getLichSuTheoMaKH(khachHang.getMaKH()));
-				RequestDispatcher rd = request.getRequestDispatcher("lichSu.jsp");
-				rd.forward(request, response);
-			} else {
-				response.sendRedirect("dangNhapController");
+			if (session.getAttribute("loginAdmin") != null) {
+				String maLoai = request.getParameter("maLoai");
+				String action = request.getParameter("submitLoai");
+				LoaiBO loaiBO = new LoaiBO();
+				
+				if (action == null) {
+					RequestDispatcher rd = request.getRequestDispatcher("themSuaLoaiAdmin.jsp");
+					rd.forward(request, response);
+				}
+				
+				if (action.equalsIgnoreCase("Sửa")) {
+					request.setAttribute("loaiSua", loaiBO.getThongTinLoai(maLoai));
+					RequestDispatcher rd = request.getRequestDispatcher("themSuaLoaiAdmin.jsp");
+					rd.forward(request, response);
+				}
+				
+				if (action.equalsIgnoreCase("Xóa")) {
+					loaiBO.xoa(maLoai);
+					response.sendRedirect("loaiAdminController");
+				}
 			}
+				
+			RequestDispatcher rd = request.getRequestDispatcher("dangNhapAdmin.jsp");
+			rd.forward(request, response);
 		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("Lỗi lichSuController");
 			e.printStackTrace();
 		}
 	}

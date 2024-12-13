@@ -1,5 +1,6 @@
 package hoaDonModal;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class HoaDonBO {
@@ -12,5 +13,13 @@ public class HoaDonBO {
 	
 	public long maxHoaDon() throws Exception {
 		return hoaDonDAO.maxHoaDon();
+	}
+
+	public ArrayList<HoaDon> getChuaThanhToan() throws Exception {
+		return hoaDonDAO.getChuaThanhToan();
+	}
+	
+	public long xacNhan(long maHD) throws Exception {
+		return hoaDonDAO.xacNhan(maHD);
 	}
 }

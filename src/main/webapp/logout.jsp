@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,10 +15,15 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<jsp:include page="header.jsp" />
-	<%
-		session.removeAttribute("login");
-		response.sendRedirect("dangNhap.jsp");
-	%>
+	<c:if test="${sessionScope.login != null}">
+		<jsp:include page="header.jsp" />
+		<c:remove var="login" scope="session" />
+		<c:redirect url="dangNhapController" />
+	</c:if>
+	<c:if test="${sessionScope.loginAdmin != null}">
+		<jsp:include page="headerAdmin.jsp" />
+		<c:remove var="loginAdmin" scope="session" />
+		<c:redirect url="dangNhapAdminController" />
+	</c:if>
 </body>
 </html>
