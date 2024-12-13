@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -59,14 +60,24 @@ public class quanLySachAdminController extends HttpServlet {
 				}
 				
 				if (action.equalsIgnoreCase("Xóa")) {
-					sachBO.xoa(maSach);
+					int n =  sachBO.xoa(maSach);
+					if (n > 0) {
+						String dirUrl = request.getServletContext().getRealPath("") + File.separator + sachBO.getThongTinSach(maSach).getAnh();
+						File img = new File(dirUrl);
+						if (img.exists()) {
+							boolean isDeleted = img.delete();
+							System.out.println(isDeleted);
+						} else {
+							System.out.println(sachBO.getThongTinSach(maSach).getAnh());
+							System.out.println("not exist");
+						}
+					}
 					response.sendRedirect("sachAdminController");
 				}
+			} else {
+				RequestDispatcher rd = request.getRequestDispatcher("dangNhapAdmin.jsp");
+				rd.forward(request, response);
 			}
-			
-			RequestDispatcher rd = request.getRequestDispatcher("dangNhapAdmin.jsp");
-			rd.forward(request, response);
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

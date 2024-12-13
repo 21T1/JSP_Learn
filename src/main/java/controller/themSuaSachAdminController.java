@@ -3,6 +3,8 @@ package controller;
 import java.io.Console;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -76,7 +78,7 @@ public class themSuaSachAdminController extends HttpServlet {
 					// Nếu ko phải các control=>upfile lên
 					if (!fileItem.isFormField()) {
 						// xử lý file
-						String nameimg = fileItem.getName();
+						String nameimg = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + fileItem.getName();
 						if (!nameimg.equals("")) {
 							// Lấy đường dẫn hiện tại, chủ ý xử lý trên dirUrl để có đường dẫn đúng
 							String dirUrl = request.getServletContext().getRealPath("") + File.separator + "image_sach";
@@ -122,28 +124,36 @@ public class themSuaSachAdminController extends HttpServlet {
 						}
 					}
 				}
-
-				if (maSach == null || tenSach == null || tacGia == null || maLoai == null || soLuong <= 0 || gia <= 0
-						|| (action.equalsIgnoreCase("Xác nhận") && anh == null)) {
-					request.setAttribute("message", "Vui lòng nhập thông tin đầy đủ và hợp lệ");
+				
+				SachBO sachBO = new SachBO();
+				
+				if (action.equalsIgnoreCase("Xác nhận") && sachBO.getThongTinSach(maSach) != null) {
+					request.setAttribute("message", "Mã sách đã tồn tại");
 					RequestDispatcher rd = request.getRequestDispatcher("themSuaSachAdmin.jsp");
 					rd.forward(request, response);
-				}
-
-				Sach sach = new Sach(maSach, tenSach, tacGia, soLuong, gia, anh, maLoai);
-				SachBO sachBO = new SachBO();
-
-				System.out.println("Action: " + action);
-				if (action.equalsIgnoreCase("Cập nhật")) {
-					if (anh == null) {
-						System.out.println("Sửa: " + maSachSua);
-						sach.setAnh(sachBO.getThongTinSach(maSachSua).getAnh());
-					}
-					sachBO.sua(sach, maSachSua);
-					response.sendRedirect("sachAdminController");
 				} else {
-					sachBO.them(sach);
-					response.sendRedirect("sachAdminController");
+
+					if (maSach == null || tenSach == null || tacGia == null || maLoai == null || soLuong <= 0 || gia <= 0
+							|| (action.equalsIgnoreCase("Xác nhận") && anh == null)) {
+						request.setAttribute("message", "Vui lòng nhập thông tin đầy đủ và hợp lệ");
+						RequestDispatcher rd = request.getRequestDispatcher("themSuaSachAdmin.jsp");
+						rd.forward(request, response);
+					}
+
+					Sach sach = new Sach(maSach, tenSach, tacGia, soLuong, gia, anh, maLoai);
+
+					System.out.println("Action: " + action);
+					if (action.equalsIgnoreCase("Cập nhật")) {
+						if (anh == null) {
+							System.out.println("Sửa: " + maSachSua);
+							sach.setAnh(sachBO.getThongTinSach(maSachSua).getAnh());
+						}
+						sachBO.sua(sach, maSachSua);
+						response.sendRedirect("sachAdminController");
+					} else {
+						sachBO.them(sach);
+						response.sendRedirect("sachAdminController");
+					}
 				}
 			} else {
 				RequestDispatcher rd = request.getRequestDispatcher("dangNhapAdmin.jsp");
